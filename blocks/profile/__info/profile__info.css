@@ -1,0 +1,15 @@
+.profile__info {
+  flex-grow: 1;
+  padding-left: 30px;
+  color: #FFF;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 767px) {
+  .profile__info {
+    padding-top: 26px;
+    gap: 10px;
+  }
+}
