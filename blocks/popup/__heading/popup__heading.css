@@ -9,7 +9,7 @@
 
 @media (max-width: 767px) {
   .popup__heading {
-    width: 238px;
+    max-width: 238px;
     align-self: center;
     font-size: 18px;
     line-height: 22px;

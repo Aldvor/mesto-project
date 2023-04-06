@@ -7,17 +7,18 @@
   width: 24px;
   height: 24px;
   border: 1px solid #FFF;
+  cursor: pointer;
+  transition: opacity .5 ease-in;
 }
 
 @media (max-width: 767px) {
   .profile__edit-button {
+    background-size: 7.5px 7.5px;
     width: 18px;
     height: 18px;
   }
 }
 
 .profile__edit-button:hover {
-  cursor: pointer;
   opacity: .6;
-  transition: opacity .5 ease-in;
 }

@@ -3,7 +3,6 @@
   margin: 0;
   width: 120px;
   height: 120px;
-  background-size: cover;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 50%;
 }
