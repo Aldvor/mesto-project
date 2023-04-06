@@ -1,7 +1,11 @@
 .popup__button-cancel {
-  margin: 155px 0 8px 479px;
-  background-image: url(../../../image/Close\ Icon.svg);
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background-image: url(../../../image/Close-Icon.svg);
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   width: 32px;
   height: 32px;
   border: none;
@@ -10,13 +14,15 @@
 
 @media (max-width: 767px) {
   .popup__button-cancel {
-    margin: 87px 0 16px 264px;
-    max-width: 20px;
-    max-height: 20px;
+    top: -36px;
+    right: 0;
+    width: 20px;
+    height: 20px;
   }
 }
 
 .popup__button-cancel:hover {
   opacity: 0.6;
-  cursor: url(../../../image/Layer\ 1\ 1.svg), pointer;
+  cursor: pointer;
+  transition: opacity .5 ease-in;
 }

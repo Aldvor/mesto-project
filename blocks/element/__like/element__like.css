@@ -1,18 +1,18 @@
 .element__like {
-  padding-right: 20px;
+  border: none;
+  margin-right: 20px;
   background-image: url(../../../image/Group.svg);
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
+  background-color: transparent;
   align-self: center;
-  min-width: 22px;
-  min-height: 19px;
+  width: 22px;
+  height: 19px;
 }
 
 .element__like:hover {
   opacity: 0.5;
-  cursor: url(../../../image/Layer\ 1\ 1.svg), pointer;
-}
-
-.element__like:active {
-  opacity: 1;
-  background-image: url(../../../image/Union.svg);
+  cursor: pointer;
+  transition: opacity .5 ease-in;
 }

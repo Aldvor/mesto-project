@@ -1,5 +1,5 @@
 .element__description {
-  min-height: 75px;
+  padding: 25px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;

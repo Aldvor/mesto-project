@@ -1,19 +1,19 @@
 .header__logo {
   display: block;
   background-image: url(../../../image/logo.svg);
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: left;
-  min-width: 142px;
-  min-height: 33px;
-  padding: 45px 0 41px;
+  width: 142px;
+  height: 33px;
+  margin: 45px 0 41px;
 }
 
 @media (max-width: 767px) {
   .header__logo {
-    margin-left: 27px;
     background-image: url(../../../image/logo-mobile.svg);
-    padding: 28px 0 31.6px;
-    min-width: 103.74px;
-    min-height: 24.4px;
+    margin: 28px 0 31.6px 27px;
+    width: 103.74px;
+    height: 24.4px;
   }
 }
