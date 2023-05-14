@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./pages/index.css">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./pages/index.css" />
     <title>Место</title>
   </head>
   <body class="page">
@@ -13,7 +13,7 @@
     </header>
     <main class="main">
       <section class="profile">
-        <img class="profile__avatar" src="./image/image.jpg" alt="Аватар">
+        <img class="profile__avatar" src="./image/image.jpg" alt="Аватар" />
         <div class="profile__info">
           <div class="profile__name-edit">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -32,7 +32,7 @@
         ></button>
       </section>
       <section class="elements" aria-label="Карточки">
-        <article class="element">
+        <!-- <article class="element">
           <img
             class="element__image"
             src="./image/kirill-pershin-1088404-unsplash.jpg"
@@ -115,13 +115,31 @@
               aria-label="Лайк"
             ></button>
           </div>
-        </article>
+        </article> -->
+        <template id="place-card">
+          <article class="element">
+            <button
+              class="element__trash"
+              type="button"
+              aria-label="Корзина"
+            ></button>
+            <img class="element__image" id="element__image" src="" alt="" />
+            <div class="element__description">
+              <h2 class="element__title"></h2>
+              <button
+                class="element__like"
+                type="button"
+                aria-label="Лайк"
+              ></button>
+            </div>
+          </article>
+        </template>
       </section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">&copy;2023 Дмитрий Локтионов</p>
     </footer>
-    <div class="popup">
+    <div class="popup" id="popup-profile">
       <div class="popup__container">
         <button
           type="button"
@@ -129,22 +147,65 @@
           aria-label="Закрыть окно"
         ></button>
         <h2 class="popup__heading">Редактировать профиль</h2>
-        <form class="popup__form" name="formEditProfile">
+        <form class="popup__form" id="profile" name="formEditProfile">
           <input
             type="text"
             class="popup__item popup__item_type_name"
             id="heading"
             name="heading"
-            placeholder="Введите имя">
+            placeholder="Введите имя"
+            value="Жак-Ив Кусто"
+          />
           <input
             type="text"
             class="popup__item popup__item_type_info"
             id="subheading"
             name="subheading"
-            placeholder="Укажите профессию">
+            placeholder="Укажите профессию"
+            value="Исследователь океана"
+          />
           <button type="submit" class="popup__button-save">Сохранить</button>
         </form>
       </div>
     </div>
+    <div class="popup" id="popup-card">
+      <div class="popup__container">
+        <button
+          type="button"
+          class="popup__button-cancel"
+          aria-label="Закрыть окно"
+        ></button>
+        <h2 class="popup__heading">Новое Место</h2>
+        <form class="popup__form" id="mesto" name="formAddCard">
+          <input
+            type="text"
+            class="popup__item popup__item_type_name"
+            id="place"
+            name="place"
+            placeholder="Название"
+          />
+          <input
+            type="link"
+            class="popup__item popup__item_type_info"
+            id="link"
+            name="link"
+            placeholder="Ссылка на картинку"
+          />
+          <button type="submit" class="popup__button-save">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup__image" id="popup__image">
+      <div class="popup__container popup__container-image">
+        <button
+          type="button"
+          class="popup__button-cancel"
+          aria-label="Закрыть окно"
+        ></button>
+        <img class="popup__image-big" src="" alt="" />
+        <h3 class="popup__image-text"></h3>
+      </div>
+    </div>
+    <script src="./script.js"></script>
   </body>
 </html>

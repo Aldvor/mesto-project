@@ -1,0 +1,7 @@
+.popup__container-image {
+  background: inherit;
+  max-width: 75vh;
+  max-height: 75vh;
+  padding: 0;
+  width: auto;
+}
