@@ -1,22 +1,19 @@
-//переменные для popup
-const popup = document.querySelector('.popup');
+//переменные
 const popupEdit = document.querySelector('#popup-profile');
 const popupAddCard = document.querySelector('#popup-card');
 const popupImage = document.querySelector('#popup-image');
-//переменные кнопок popup
 const popupEditButton = document.querySelector('.profile__edit-button');
 const popupAddButton = document.querySelector('.profile__add-button');
-//переменная закрытия popups
 const popupCloseButtons = document.querySelectorAll('.popup__button-cancel');
+const elementBigImage = document.querySelector('.popup__image-big');
+const elementBigText = document.querySelector('.popup__image-text');
+const placesContainer = document.querySelector(".elements");
 //слушатели открытия popup
 popupEditButton.addEventListener('click', function () {
     openPopup(popupEdit);
 });
 popupAddButton.addEventListener('click', function () {
     openPopup(popupAddCard);
-});
-popupImage.addEventListener('click', function () {
-    openPopup(popupImage);
 });
 //функции открытия popup
 function openPopup(popup) {
@@ -41,7 +38,7 @@ function handleProfileFormSubmit (evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value
   profileSubtitle.textContent = jobInput.value 
-  closePopup(popup);
+  closePopup(popupEdit);
 }
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 //массив карточек "из коробки"
@@ -87,23 +84,15 @@ itemCloneCard.querySelector('.element__like').addEventListener('click', function
   evt.target.classList.toggle('element__like_active');
 })
 //delete
-const deleteItems = itemCloneCard.querySelectorAll('.element__trash');
-deleteItems.forEach(function(el) {
-  el.addEventListener('click', function(evt) {
+itemCloneCard.querySelector('.element__trash').addEventListener('click', function(evt) {
     evt.target.closest('.element').remove()
-  });
 });
-itemCloneCard.querySelector('.element__image').addEventListener('click', function(){
-  const elementBigImage = document.querySelector('.popup__image-big');
-  const elementBigText = document.querySelector('.popup__image-text');
+//слушатель картинок
+imageElement.addEventListener('click', function(){
     openPopup(popupImage)
     elementBigImage.src = link,
     elementBigImage.alt = name,
     elementBigText.textContent = name
-});
-//закрытие картинки
-popupImage.addEventListener('click', function() {
-  closePopup(popupImage);
 });
   return itemCloneCard;
 };
@@ -121,7 +110,6 @@ function addCard(evt) {
   };
 
 function renderCard(card) { 
-  const placesContainer = document.querySelector(".elements");
   const newCard = createCard(card.name, card.link);
   placesContainer.prepend(newCard)
 };
