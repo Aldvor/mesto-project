@@ -1,11 +1,12 @@
 import './pages/index.css'
 import { enableValidation } from './components/validate';
 import { openPopup, closePopup } from './components/modal';
-import { renderCard, addCard } from './components/card';
+import { renderCard, createCard } from './components/card';
 import { initialCards } from './components/utils';
+import { data } from 'autoprefixer';
 
 const popupEdit = document.querySelector('#popup-profile');
-export const popupAddCard = document.querySelector('#popup-card');
+const popupAddCard = document.querySelector('#popup-card');
 const popupEditButton = document.querySelector('.profile__edit-button');
 const popupAddButton = document.querySelector('.profile__add-button');
 const formAddCard = document.querySelector('#mesto');
@@ -32,8 +33,8 @@ profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 formAddCard.addEventListener('submit', addCard);
 
-initialCards.reverse().forEach((card) => {
-  renderCard(card)
+initialCards.reverse().forEach((data) => {
+  renderCard(data)
 });
 
 const settings = {
@@ -45,4 +46,28 @@ const settings = {
   errorClass: 'popup__item-error_active'
 }
 
-enableValidation(settings)
+enableValidation(settings);
+
+export const openPopupImage = (name, link) => {
+  const popupImage = document.querySelector('#popup-image');
+  const elementBigImage = document.querySelector('.popup__image-big');
+  const elementBigText = document.querySelector('.popup__image-text');
+    openPopup(popupImage);
+    elementBigImage.src = link,
+    elementBigImage.alt = name,
+    elementBigText.textContent = name
+}
+createCard(data, openPopupImage);
+
+function addCard(evt) {
+  evt.preventDefault();
+  const cardNameInput = document.querySelector('#place');
+  const cardUrlInput = document.querySelector('#link');
+  const card = {
+   name: cardNameInput.value,
+   link: cardUrlInput.value
+  }  
+evt.target.reset(); 
+renderCard(card);
+closePopup(popupAddCard);
+};
