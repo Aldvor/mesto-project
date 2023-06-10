@@ -61,3 +61,8 @@ formList.forEach((formElement) => {
 setEventListeners(formElement, settings);
   });
 };
+
+export function disableButton(buttonElement) {
+  buttonElement.classList.add('popup__button-save_inactive');
+  buttonElement.disabled = true;
+}

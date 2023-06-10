@@ -20,7 +20,6 @@ export function closePopup(popup) {
 popupCloseButtons.forEach((button) => {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup));
-  document.addEventListener("keydown", closeByEsc);
   document.addEventListener("click", (evt) => {
     if (evt.target === popup) {
       closePopup(popup);

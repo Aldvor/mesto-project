@@ -1,5 +1,5 @@
 import './pages/index.css'
-import { enableValidation } from './components/validate';
+import { enableValidation, disableButton } from './components/validate';
 import { openPopup, closePopup } from './components/modal';
 import { renderCard, createCard } from './components/card';
 import { initialCards } from './components/utils';
@@ -15,12 +15,23 @@ const profileSubtitle = document.querySelector('.profile__subtitle');
 const profileForm = document.querySelector('#profile');
 const nameInput = document.querySelector('#heading');
 const jobInput = document.querySelector('#subheading');
+const popupImage = document.querySelector('#popup-image');
+const elementBigImage = document.querySelector('.popup__image-big');
+const elementBigText = document.querySelector('.popup__image-text');
+const cardNameInput = document.querySelector('#place');
+const cardUrlInput = document.querySelector('#link');
+const cardSaveButton = document.querySelector('#button-add-card')
 
-popupEditButton.addEventListener('click', function () {
-    openPopup(popupEdit);
+
+popupEditButton.addEventListener('click', () => {
+  openPopup(popupEdit);
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileSubtitle.textContent;
 });
-popupAddButton.addEventListener('click', function () {
-    openPopup(popupAddCard);
+
+popupAddButton.addEventListener('click', () => {
+  disableButton(cardSaveButton)
+  openPopup(popupAddCard);
 });
 
 function handleProfileFormSubmit(evt) {
@@ -28,7 +39,7 @@ function handleProfileFormSubmit(evt) {
     profileTitle.textContent = nameInput.value
     profileSubtitle.textContent = jobInput.value 
     closePopup(popupEdit);
-}
+};
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 formAddCard.addEventListener('submit', addCard);
@@ -49,9 +60,6 @@ const settings = {
 enableValidation(settings);
 
 export const openPopupImage = (name, link) => {
-  const popupImage = document.querySelector('#popup-image');
-  const elementBigImage = document.querySelector('.popup__image-big');
-  const elementBigText = document.querySelector('.popup__image-text');
     openPopup(popupImage);
     elementBigImage.src = link,
     elementBigImage.alt = name,
@@ -61,8 +69,6 @@ createCard(data, openPopupImage);
 
 function addCard(evt) {
   evt.preventDefault();
-  const cardNameInput = document.querySelector('#place');
-  const cardUrlInput = document.querySelector('#link');
   const card = {
    name: cardNameInput.value,
    link: cardUrlInput.value
