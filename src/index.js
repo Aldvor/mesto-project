@@ -1,9 +1,10 @@
 import './pages/index.css'
-import { enableValidation, disableButton } from './components/validate';
+import { enableValidation } from './components/validate';
 import { openPopup, closePopup } from './components/modal';
-import { renderCard, createCard } from './components/card';
-import { initialCards } from './components/utils';
+import { renderCard, placesContainer, removeCard, updateLikeStatus } from './components/card';
+import { disableButton, setStatusOnButton } from './components/utils';
 import { data } from 'autoprefixer';
+import { getInfo, getNewCard, editUserProfile, editAvatar, deleteCard, changeLikeStatus } from './components/api'
 
 const popupEdit = document.querySelector('#popup-profile');
 const popupAddCard = document.querySelector('#popup-card');
@@ -20,8 +21,35 @@ const elementBigImage = document.querySelector('.popup__image-big');
 const elementBigText = document.querySelector('.popup__image-text');
 const cardNameInput = document.querySelector('#place');
 const cardUrlInput = document.querySelector('#link');
-const cardSaveButton = document.querySelector('#button-add-card')
+const cardSaveButton = document.querySelector('#button-add-card');
+const popupAvatar = document.querySelector('#popup-avatar');
+const profileAvatar = document.querySelector('.profile__avatar')
+const popupEditAvatar = document.querySelector('.profile__avatar-button');
+const avatarLink = document.querySelector('#link-avatar');
+const avatarSubmitButton = document.querySelector('#avatar-submit');
+const editSubmitButton = document.querySelector('#button-edit')
 
+popupEditAvatar.addEventListener('click', () => {
+    openPopup(popupAvatar)
+})
+
+function avatarSubmit(evt) {
+  evt.preventDefault();
+  editAvatar({
+      avatar: avatarLink.value
+  }).then((data) => {
+      profileAvatar.src = data.avatar;
+      closePopup(popupAvatar);
+      evt.target.reset();
+  }).then(() => {
+    setStatusOnButton({ buttonElement: avatarSubmitButton, text: 'Сохранение...', disabled: false })
+  })
+  .catch((err) => {
+      console.log(err);
+  })
+};
+
+popupAvatar.addEventListener('submit', avatarSubmit);
 
 popupEditButton.addEventListener('click', () => {
   openPopup(popupEdit);
@@ -29,24 +57,93 @@ popupEditButton.addEventListener('click', () => {
   jobInput.value = profileSubtitle.textContent;
 });
 
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+  editUserProfile({
+    name: nameInput.value,
+    about: jobInput.value
+  }).then((data) => {
+    profileTitle.textContent = data.name;
+    profileSubtitle.textContent = data.about;
+    closePopup(popupEdit);
+  })
+  .then(() => {
+    setStatusOnButton({ buttonElement: editSubmitButton, text: 'Сохранение...', disabled: false })
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  
+}
+
+profileForm.addEventListener('submit', handleProfileFormSubmit);
+
 popupAddButton.addEventListener('click', () => {
-  disableButton(cardSaveButton)
+  disableButton(cardSaveButton);
   openPopup(popupAddCard);
 });
 
-function handleProfileFormSubmit(evt) {
-    evt.preventDefault();
-    profileTitle.textContent = nameInput.value
-    profileSubtitle.textContent = jobInput.value 
-    closePopup(popupEdit);
+function addCard(evt) {
+  evt.preventDefault();
+  getNewCard({
+   name: cardNameInput.value,
+   link: cardUrlInput.value
+  })  
+  .then((dataFromServer) => {
+    renderCard(placesContainer, dataFromServer, userId);
+    evt.target.reset(); 
+    closePopup(popupAddCard);
+  }).then(() => {
+    setStatusOnButton({ buttonElement: cardSaveButton, text: 'Сохранение...', disabled: false })
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 };
-profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 formAddCard.addEventListener('submit', addCard);
 
-initialCards.reverse().forEach((data) => {
-  renderCard(data)
-});
+let userId = null;
+
+getInfo()
+.then(([user, InitialCards]) => {
+  profileTitle.textContent = user.name;
+  profileSubtitle.textContent = user.about;
+  profileAvatar.src = user.avatar;
+  userId = user._id;
+
+  InitialCards.reverse().forEach((data) => {
+    renderCard(placesContainer, data, userId);
+  });
+})
+.catch((err) => {
+  console.log(err)
+})
+
+export const openPopupImage = (name, link) => {
+    openPopup(popupImage);
+    elementBigImage.src = link,
+    elementBigImage.alt = name,
+    elementBigText.textContent = name
+}
+
+export const handleChangeLikeStatus = (cardId, isLiked, newCard) => {
+  changeLikeStatus(cardId, isLiked)
+  .then((dataFromServer) => {
+      updateLikeStatus(newCard, dataFromServer.likes, userId);
+  }).catch((err) => {
+      console.log(err);
+  });
+};
+
+export function handleDeleteCard(cardId, newCard) {
+  deleteCard(cardId).then(() => {
+    removeCard(newCard);
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+};
 
 const settings = {
   formSelector: '.popup__form',
@@ -58,22 +155,3 @@ const settings = {
 }
 
 enableValidation(settings);
-
-export const openPopupImage = (name, link) => {
-    openPopup(popupImage);
-    elementBigImage.src = link,
-    elementBigImage.alt = name,
-    elementBigText.textContent = name
-}
-createCard(data, openPopupImage);
-
-function addCard(evt) {
-  evt.preventDefault();
-  const card = {
-   name: cardNameInput.value,
-   link: cardUrlInput.value
-  }  
-evt.target.reset(); 
-renderCard(card);
-closePopup(popupAddCard);
-};

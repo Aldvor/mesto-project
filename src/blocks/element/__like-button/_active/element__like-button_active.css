@@ -1,5 +1,4 @@
-.element__like_active {
-  margin-right: 20px;
+.element__like-button_active {
   height: 22px;
   background-image: url(../../../../image/Union.svg);
   width: 22px;
