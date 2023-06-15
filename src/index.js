@@ -30,22 +30,22 @@ const avatarSubmitButton = document.querySelector('#avatar-submit');
 const editSubmitButton = document.querySelector('#button-edit')
 
 popupEditAvatar.addEventListener('click', () => {
-    openPopup(popupAvatar)
+    openPopup(popupAvatar);
 })
 
 function avatarSubmit(evt) {
   evt.preventDefault();
+  setStatusOnButton({ buttonElement: avatarSubmitButton, text: 'Сохранение...', disabled: false });
   editAvatar({
       avatar: avatarLink.value
   }).then((data) => {
       profileAvatar.src = data.avatar;
-      closePopup(popupAvatar);
       evt.target.reset();
-  }).then(() => {
-    setStatusOnButton({ buttonElement: avatarSubmitButton, text: 'Сохранение...', disabled: false })
-  })
-  .catch((err) => {
+      closePopup(popupAvatar);    
+  }).catch((err) => {
       console.log(err);
+  }).finally(() => {
+    setStatusOnButton({ buttonElement: avatarSubmitButton, text: 'Сохранить', disabled: false })
   })
 };
 
@@ -59,6 +59,7 @@ popupEditButton.addEventListener('click', () => {
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
+  setStatusOnButton({ buttonElement: editSubmitButton, text: 'Сохранение...', disabled: false })
   editUserProfile({
     name: nameInput.value,
     about: jobInput.value
@@ -67,13 +68,11 @@ function handleProfileFormSubmit(evt) {
     profileSubtitle.textContent = data.about;
     closePopup(popupEdit);
   })
-  .then(() => {
-    setStatusOnButton({ buttonElement: editSubmitButton, text: 'Сохранение...', disabled: false })
-  })
   .catch((err) => {
     console.log(err);
-  })
-  
+  }).finally(() => {
+    setStatusOnButton({ buttonElement: editSubmitButton, text: 'Сохранить', disabled: false })
+  }) 
 }
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);
@@ -85,20 +84,19 @@ popupAddButton.addEventListener('click', () => {
 
 function addCard(evt) {
   evt.preventDefault();
+  setStatusOnButton({ buttonElement: cardSaveButton, text: 'Сохранение...', disabled: false })
   getNewCard({
    name: cardNameInput.value,
    link: cardUrlInput.value
-  })  
-  .then((dataFromServer) => {
+  }).then((dataFromServer) => {
     renderCard(placesContainer, dataFromServer, userId);
     evt.target.reset(); 
     closePopup(popupAddCard);
-  }).then(() => {
-    setStatusOnButton({ buttonElement: cardSaveButton, text: 'Сохранение...', disabled: false })
-  })
-  .catch((err) => {
+  }).catch((err) => {
     console.log(err);
-  });
+  }).finally(() => {
+    setStatusOnButton({ buttonElement: cardSaveButton, text: 'Сохранить', disabled: false })
+  })
 };
 
 formAddCard.addEventListener('submit', addCard);
