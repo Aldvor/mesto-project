@@ -2,7 +2,7 @@
   "name": "c",
   "version": "1.0.0",
   "description": "[Ссылка на Github!](https://aldvor.github.io/mesto-project/)",
-  "main": "./src/index.js",
+  "main": "./src/pages/index.js",
   "dependencies": {
     "core-js": "^3.30.2"
   },
