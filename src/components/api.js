@@ -1,83 +1,82 @@
-const config =  {
-  baseUrl: 'https://mesto.nomoreparties.co/v1/plus-cohort-25/',
-    headers: {
-      authorization: '95b0db2c-9e93-4ee0-a504-586490a651d2',
-      'Content-Type': 'application/json'
+export default class Api {
+  constructor(config) {
+    this._baseUrl = config.baseUrl;
+    this._headers = config.headers;
   }
-};
 
-function onResponse(res) {
-  if (res.ok) {
-    return res.json();
-  } else {
-    return Promise.reject(`Ошибка: ${res.status}`);
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    } 
+    return Promise.reject(`Что-то пошло не так: ${res.status}`);
   }
-};
 
+  _request(url, options) {
+    return fetch(url, options).then(this._checkResponse);
+  }
 
-function getInitialCards() {
-  return fetch(`${config.baseUrl}/cards`, {
-    headers: config.headers
-  })
-  .then(onResponse)
-};
+  getUserData () {
+    return this._request(`${this._baseUrl}/users/me`, {
+      headers: this._headers
+    });
+  }
 
-export const getProfile = () => {
-  return fetch(`${config.baseUrl}/users/me`, {
-    headers: config.headers
-  })
-  .then(onResponse);
-};
+  getInitialCards () {
+    return this._request(`${this._baseUrl}/cards`, {
+      headers: this._headers
+    });
+  }
 
-export function getInfo() {
-  return Promise.all([getProfile(), getInitialCards()]);
-};
-
-export const getNewCard = (addData) => {
-  return fetch(`${config.baseUrl}/cards`, {
-    method: 'POST',
-    headers: config.headers,
-    body: JSON.stringify(addData)
-  })
-  .then(onResponse);
-};
-
-export const editUserProfile = (editData) => {
-  return fetch(`${config.baseUrl}/users/me`, {
+  updateUserData (userData) {
+    return this._request(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
       method: "PATCH",
-      headers: config.headers,
-      body: JSON.stringify(editData)
-  }).then(onResponse);
-};
+      body: JSON.stringify({
+        name: userData.name,
+        about: userData.about
+      })
+    });
+  }
 
+  updateCard (data) {
+    return this._request(`${this._baseUrl}/cards`, {
+      headers: this._headers,
+      method: "POST",
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link
+      })
+    });
+  }
 
+  setHeart = (cardId) => {
+    return this._request(`${this._baseUrl}/cards/likes/${cardId}`, {
+      headers: this._headers,
+      method: "PUT",
+    });
+  }
 
-export const getAddCard = (addData) => {
-  return fetch(`${config.baseUrl}/cards`, {
-    headers: config.headers,
-    method: "POST",
-      body: JSON.stringify(addData)
-  }).then(onResponse);
-};
+  removeHeart = (cardId) => {
+    return this._request(`${this._baseUrl}/cards/likes/${cardId}`, {
+      headers: this._headers,
+      method: "DELETE",
+    });
+  }
 
-export const editAvatar = (editData) => {
-  return fetch(`${config.baseUrl}/users/me/avatar`, {
-    headers: config.headers,
-    method: "PATCH",
-      body: JSON.stringify(editData)
-  }).then(onResponse);
-};
+  deleteCard = (cardId) => {
+    return this._request(`${this._baseUrl}/cards/${cardId}`, {
+      headers: this._headers,
+      method: "DELETE",
+    });
+  }
 
-export const deleteCard = (dataId) => {
-  return fetch(`${config.baseUrl}/cards/${dataId}`, {
-    headers: config.headers,
-    method: "DELETE",
-  }).then(onResponse);
+  updateAvatar = (newAvatar) => {
+    return this._request(`${this._baseUrl}/users/me/avatar`, {
+      headers: this._headers,
+      method: "PATCH",
+      body: JSON.stringify({
+        avatar: newAvatar
+      })
+    });
+  }
 }
-
-export const changeLikeStatus = (dataId, isLike) => {
-  return fetch(`${config.baseUrl}/cards/likes/${dataId}`, {
-      method: isLike ? "DELETE" : "PUT",
-      headers: config.headers
-}).then(onResponse);
-};
