@@ -11,6 +11,5 @@
 Flex
 Grid
 ООП
-Gh-pages: https://veradgt.github.io/short-n-sweet/
 
 [Ссылка на Gh-Pages!](https://aldvor.github.io/mesto-project/)
